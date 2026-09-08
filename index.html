@@ -3,67 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>我的第一个网页</title>
+    <title>简易枪战射击游戏</title>
     <style>
-        /* 全局样式 */
         * {
-            margin: 0;
-            padding: 0;
+            margin:0;
+            padding:0;
             box-sizing: border-box;
         }
         body {
-            /* 页面背景 */
-            background-color: #f0f4f8;
-            font-family: "Microsoft Yahei", sans-serif;
-            padding: 60px 20px;
+            background:#222;
+            overflow:hidden;
+            cursor: crosshair; /* 十字瞄准光标 */
+            font-family: Microsoft Yahei;
         }
-        /* 内容盒子，居中 */
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            background: white;
-            padding: 40px;
-            border-radius: 14px;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+        #gameBox{
+            width:100vw;
+            height:100vh;
+            position:relative;
+            background:#2c3e50;
         }
-        h1 {
-            color:#2563eb;
-            margin-bottom:16px;
-        }
-        p {
-            font-size:17px;
-            color:#444;
-            line-height:1.7;
-            margin-bottom:24px;
-        }
-        hr {
-            border: none;
-            height:1px;
-            background:#ddd;
-            margin:30px 0;
-        }
-        .btn {
-            display: inline-block;
-            background-color:#2563eb;
+        .info{
+            position:absolute;
+            top:20px;
+            left:20px;
             color:white;
-            text-decoration: none;
-            padding:12px 26px;
-            border-radius: 8px;
-            transition: 0.2s;
+            font-size:22px;
+            z-index:99;
         }
-        /* 鼠标悬浮按钮效果 */
-        .btn:hover {
-            background-color:#1d4ed8;
+        .target{
+            width:80px;
+            height:80px;
+            background:#e74c3c;
+            border-radius:50%;
+            position:absolute;
+        }
+        #tip{
+            position:absolute;
+            bottom:30px;
+            width:100%;
+            text-align:center;
+            color:#ccc;
+            font-size:16px;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>👋 你好，网页！</h1>
-        <p>这是我写的第一个HTML页面，已经做了美化优化。</p>
-        <p>网页实现了居中卡片、柔和阴影、好看配色，手机打开也能正常显示。</p>
-        <hr>
-        <a class="btn" href="#">点击体验按钮</a>
-    </div>
+<div id="gameBox">
+    <div class="info">分数：<span id="score">0</span></div>
+    <div id="tip">鼠标移动瞄准，点击红色靶子射击！</div>
+</div>
+
+<script>
+    const gameBox = document.getElementById('gameBox');
+    const scoreDom = document.getElementById('score');
+    let score = 0;
+
+    // 创建靶子
+    function createTarget(){
+        const target = document.createElement('div');
+        target.className = 'target';
+        // 随机位置，防止超出屏幕
+        const maxX = window.innerWidth - 100;
+        const maxY = window.innerHeight - 150;
+        let x = Math.random() * maxX;
+        let y = Math.random() * maxY;
+        target.style.left = x + 'px';
+        target.style.top = y + 'px';
+
+        // 点击靶子加分，靶子消失，出新靶子
+        target.addEventListener('click',(e)=>{
+            e.stopPropagation();
+            score += 10;
+            scoreDom.innerText = score;
+            target.remove();
+            setTimeout(createTarget,300);
+        })
+        gameBox.appendChild(target);
+
+        // 靶子超时自动消失，刷新
+        setTimeout(()=>{
+            target.remove();
+            createTarget();
+        },2200)
+    }
+
+    // 空白处点击扣分
+    gameBox.addEventListener('click',()=>{
+        score = Math.max(0, score - 2);
+        scoreDom.innerText = score;
+    })
+
+    // 游戏启动，生成第一个靶子
+    createTarget();
+</script>
 </body>
 </html>
