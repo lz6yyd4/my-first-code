@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>简易枪战射击游戏</title>
+    <title>反应速度射击练习</title>
     <style>
         * {
             margin:0;
@@ -13,7 +13,6 @@
         body {
             background:#222;
             overflow:hidden;
-            cursor: crosshair; /* 十字瞄准光标 */
             font-family: Microsoft Yahei;
         }
         #gameBox{
@@ -21,6 +20,8 @@
             height:100vh;
             position:relative;
             background:#2c3e50;
+            display:none;
+            cursor: crosshair;
         }
         .info{
             position:absolute;
@@ -31,11 +32,13 @@
             z-index:99;
         }
         .target{
-            width:80px;
-            height:80px;
-            background:#e74c3c;
             border-radius:50%;
             position:absolute;
+            background:#e74c3c;
+            transition: background 0.3s;
+        }
+        .target.warning{
+            background:#770e0e;
         }
         #tip{
             position:absolute;
@@ -45,56 +48,164 @@
             color:#ccc;
             font-size:16px;
         }
+
+        /* 开始界面 */
+        #startPage{
+            width:100vw;
+            height:100vh;
+            background:#1a2530;
+            display:flex;
+            flex-direction:column;
+            align-items:center;
+            justify-content:center;
+            color:#fff;
+        }
+        #startPage h1{
+            font-size:42px;
+            margin-bottom:40px;
+            color:#ff4444;
+        }
+        .setting-box{
+            background:#2c3e50;
+            padding:30px 40px;
+            border-radius:12px;
+            margin-bottom:35px;
+        }
+        .setting-item{
+            margin:16px 0;
+            font-size:18px;
+        }
+        input[type="range"]{
+            width:240px;
+            margin-left:12px;
+        }
+        #sizeValue{
+            color:#ffcc00;
+        }
+        #timeValue{
+            color:#ffcc00;
+        }
+        #startBtn{
+            padding:14px 48px;
+            font-size:22px;
+            background:#e74c3c;
+            color:white;
+            border:none;
+            border-radius:10px;
+            cursor:pointer;
+        }
+        #startBtn:hover{
+            background:#c0392b;
+        }
     </style>
 </head>
 <body>
+
+<div id="startPage">
+    <h1>🔫 反应力打靶练习</h1>
+    <div class="setting-box">
+        <div class="setting-item">
+            靶子大小：
+            <input id="sizeSlider" type="range" min="40" max="140" value="80">
+            <span id="sizeValue">80</span> px
+        </div>
+        <div class="setting-item">
+            靶子存活时间：
+            <input id="timeSlider" type="range" min="800" max="3000" value="1800" step="100">
+            <span id="timeValue">1800</span> ms
+        </div>
+    </div>
+    <button id="startBtn">开始练习</button>
+</div>
+
 <div id="gameBox">
     <div class="info">分数：<span id="score">0</span></div>
-    <div id="tip">鼠标移动瞄准，点击红色靶子射击！</div>
+    <div id="tip">靶子超时会直接消失！靶子变红代表快要消失</div>
 </div>
 
 <script>
+    const startPage = document.getElementById('startPage');
     const gameBox = document.getElementById('gameBox');
     const scoreDom = document.getElementById('score');
-    let score = 0;
+    const startBtn = document.getElementById('startBtn');
+    const sizeSlider = document.getElementById('sizeSlider');
+    const sizeValue = document.getElementById('sizeValue');
+    const timeSlider = document.getElementById('timeSlider');
+    const timeValue = document.getElementById('timeValue');
 
-    // 创建靶子
+    let score = 0;
+    let currentTarget = null;
+    let targetSize = 80;
+    let targetLiveTime = 1800; //靶子存活毫秒
+
+    //设置靶子大小
+    sizeSlider.addEventListener('input',()=>{
+        targetSize = Number(sizeSlider.value);
+        sizeValue.innerText = targetSize;
+    })
+    //设置靶子存活时间，时间越短反应要求越高
+    timeSlider.addEventListener('input',()=>{
+        targetLiveTime = Number(timeSlider.value);
+        timeValue.innerText = targetLiveTime;
+    })
+
+    startBtn.addEventListener('click',()=>{
+        startPage.style.display = 'none';
+        gameBox.style.display = 'block';
+        createTarget();
+    })
+
     function createTarget(){
+        if(currentTarget) return;
+
         const target = document.createElement('div');
         target.className = 'target';
-        // 随机位置，防止超出屏幕
-        const maxX = window.innerWidth - 100;
+        const maxX = window.innerWidth - targetSize;
         const maxY = window.innerHeight - 150;
         let x = Math.random() * maxX;
         let y = Math.random() * maxY;
+
+        target.style.width = targetSize + 'px';
+        target.style.height = targetSize + 'px';
         target.style.left = x + 'px';
         target.style.top = y + 'px';
 
-        // 点击靶子加分，靶子消失，出新靶子
+        //击中靶子
         target.addEventListener('click',(e)=>{
             e.stopPropagation();
             score += 10;
             scoreDom.innerText = score;
             target.remove();
-            setTimeout(createTarget,300);
+            currentTarget = null;
+            setTimeout(createTarget,200);
         })
-        gameBox.appendChild(target);
 
-        // 靶子超时自动消失，刷新
-        setTimeout(()=>{
-            target.remove();
-            createTarget();
-        },2200)
+        gameBox.appendChild(target);
+        currentTarget = target;
+
+        // 剩余三分之一时间，靶子变为深红色警告
+        const warnTimer = setTimeout(()=>{
+            if(currentTarget === target){
+                target.classList.add("warning");
+            }
+        }, targetLiveTime * 0.66);
+
+        //超时未击中，靶子消失
+        const disappearTimer = setTimeout(()=>{
+            clearTimeout(warnTimer);
+            if(currentTarget === target){
+                target.remove();
+                currentTarget = null;
+                createTarget();
+            }
+        }, targetLiveTime)
     }
 
-    // 空白处点击扣分
+    //点空白扣分
     gameBox.addEventListener('click',()=>{
         score = Math.max(0, score - 2);
         scoreDom.innerText = score;
     })
-
-    // 游戏启动，生成第一个靶子
-    createTarget();
 </script>
 </body>
 </html>
