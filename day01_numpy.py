@@ -65,5 +65,5 @@ print(arr6.argmax())
 #  .sum()求和   .mean() .median()返回平均值 .var()方差 .std()标准差
 
 arr7 = np.array([[2,5],[1,4]])
-print(np.sum(arr7,axis=0))
+print(np.sum(arr7,axis=0))#axis参数决定维度0纵向 1横向
 print(np.sum(arr7,axis=1))
