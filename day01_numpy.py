@@ -112,3 +112,13 @@ print("垂直堆叠：")
 print(v_stack)
 print("水平堆叠：")
 print(h_stack)
+d_stack = np.dstack([arr1,arr2]) # 深度合并
+print("深度堆叠：") 
+print(d_stack)
+print("深度堆叠形状：", d_stack.shape) # (2, 2, 2)
+
+arr1 = np.ones((2,3))
+arr2 = np.ones((2,3))
+print(np.vstack([arr1,arr2]).shape)
+print(np.hstack([arr1,arr2]).shape)
+print(np.dstack([arr1,arr2]).shape)

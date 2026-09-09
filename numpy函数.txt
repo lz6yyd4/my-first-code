@@ -1,0 +1,35 @@
+Numpy 函数汇总
+
+一、数组创建函数
+np.ones(shape, dtype=xxx)
+创建全部元素为 1 的数组；
+示例：np.ones((H, W, 3), dtype=np.uint8) * 255
+np.zeros(shape, dtype=xxx)
+创建全部元素为 0 的数组
+np.full(shape, fill_value, dtype=xxx)
+用指定值填充整个数组
+np.arange(start, stop, step)
+生成左闭右开的连续数字序列
+np.linspace(start, stop, num)
+在起止之间，均匀取出指定个数数字（包含首尾）
+
+二、堆叠拼接系列
+函数	作用	等价 / 特点
+np.vstack([arr1, arr2,...])	垂直堆叠（上下拼），增加行数；要求除第 0 维外其余维度相同	np.row_stack，二者完全等价
+np.hstack([arr1, arr2,...])	水平堆叠（左右拼），增加列数；要求除第 1 维外其余维度相同	一维数组输入时，直接合并为更长一维数组
+np.dstack([arr1, arr2,...])	深度堆叠，沿着 axis=2 拼接，新增通道维度	2 维输入会自动升维成 3 维
+np.row_stack([arr1, arr2,...])	和 vstack 完全一样，上下拼接	vstack别名
+np.column_stack([arr1, arr2,...])	按列横向拼接；一维数组会自动转为列向量再拼接，输出二维	和 hstack 在二维输入行为一致，一维输入差异巨大
+np.concatenate([arr1,arr2], axis=n)	通用拼接函数，底层就是 vstack/hstack	axis=0 = 垂直；axis=1= 水平
+
+三、其他用到的属性 / 知识点
+.shape：查看数组形状，返回元组 (行,列,通道)
+广播机制：数组和标量运算时，标量自动扩展匹配数组尺寸
+数组切片 arr[行起始:行结束 , 列起始:列结束]，左闭右开
+np.ogrid：生成网格坐标，用于距离计算、布尔蒙版
+布尔索引：mask = 条件表达式，用 mask 选取符合条件像素
+四、易错点清单
+vstack：列数必须一致；hstack：行数必须一致，否则直接报错
+column_stack vs hstack：一维数组输入，二者结果完全不同！
+三维图像数组顺序：(高度H,宽度W,通道)，宽高顺序和日常习惯相反
+np.uint8：图像专用数据类型，数值范围 0~255，溢出会循环
