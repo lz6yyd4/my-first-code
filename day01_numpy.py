@@ -67,3 +67,24 @@ print(arr6.argmax())
 arr7 = np.array([[2,5],[1,4]])
 print(np.sum(arr7,axis=0))#axis参数决定维度0纵向 1横向
 print(np.sum(arr7,axis=1))
+
+# 广播示例1：数组 + 标量
+a = np.array([1,2,3])
+b = 2
+print("例1 数组+标量：")
+print(a + b)
+
+# 广播示例2：二维数组 + 一维数组
+A = np.array([[1,2,3],
+              [4,5,6]])
+B = np.array([10,20,30])
+print("\n例2 二维+一维：")
+print(A + B)
+
+# 广播示例3 (3,1) + (2,)
+arr1 = np.array([[1],[2],[3]]) # shape (3,1)
+arr2 = np.array([10,20])       # shape (2,)
+res = arr1 + arr2
+print("\n例3 (3,1)+(2,)")
+print(res)
+print("结果形状：", res.shape)
