@@ -88,3 +88,27 @@ res = arr1 + arr2
 print("\n例3 (3,1)+(2,)")
 print(res)
 print("结果形状：", res.shape)
+
+arr = np.arange(12)
+arr1 = arr.reshape(3,4)#.reshape()函数将数组重新排列成指定的形状
+arr2 = arr.reshape(-1,4)#-1表示自动计算行数
+print(arr1)
+print(arr2)
+
+arr2.flatten()#将多维数组降为一维数组 返回全新数组
+print(arr2.flatten())
+arr2.ravel()#将多维数组降为一维数组，返回的是视图
+print(arr2.ravel())
+
+arr3 = arr2.T#转置 等价于arr3 = np.transpose(arr2)
+print(arr3)
+
+arr1 = np.array([[1,2],[3,4]])
+arr2 = np.array([[5,6],[7,8]])
+
+v_stack = np.vstack([arr1,arr2]) # 上下合并
+h_stack = np.hstack([arr1,arr2]) # 左右合并
+print("垂直堆叠：")
+print(v_stack)
+print("水平堆叠：")
+print(h_stack)
