@@ -1,15 +1,16 @@
-import numpy as np
+import numpy as np#导入numpy函数
 
-arr1 = np.array([1,2,3,4,5])
+arr1 = np.array([1,2,3,4,5])#创建数组
 print("arr1数组:",arr1)
-print("arr1数组shape:",arr1.shape)
+print("arr1数组shape:",arr1.shape)#获取数组尺寸
 
 my_list = [1,2,3,4,5]
 arr2 = np.array(my_list)
 print("arr2:",arr2)
+#arr[start:end:step]
 
-arr3 = np.array([0,1,2,3,4,5,6,7,8,9])
-print("arr3 arange0-9:",arr3)
+arr3 = np.arange(1,10)
+print(arr3)
 
 arr4 = np.array([[1,2,3],[4,5,6]])
 print("二维矩阵arr4：")
@@ -19,3 +20,50 @@ print("arr4的形状(行,列):",arr4.shape)
 arr5 = np.array([1,2,3])
 print("数组每个元素+2：", arr5 + 2)
 print("数组每个元素*3：", arr5 * 3)
+
+zer = np.zeros((3,3))#创建全零三行三列的数列
+zer.astype(int)#转换数据类型
+print(zer[:,1])#全部行，只取第一列
+print(zer[:1])#取第一行
+print(zer[1,2])#第一行第二列的元素
+print(zer[:2])#前两行
+
+lin = np.linspace(0,1,5)#创建区间零到一等间距分布的五个数
+print(lin)
+
+rad = np.random.rand(3,4)#创建三行四列的随机数组
+print(rad)
+
+rad2 = np.random.randint(0,10,size=(3,4),dtype=int)#(最小值,最大值，size=(行,列),dtype=数据类型)
+print(rad2)
+
+#========数学运算=========
+res = np.dot([1,2,3],[4,5,6])#.dot点成运算
+print("res:",res)
+
+A = np.array([[1,2],[3,4]])
+B = np.array([[5,6],[7,8]])
+C = A.dot(B)
+print(C)
+print(A @ B)#@矩阵乘法
+D = np.matmul(A,B)#矩阵乘法
+print(D)
+
+arr6 = np.array([1,2,3])
+sq = np.sqrt(arr6)#求平方根
+print(sq)
+s = np.sin(arr6)#求正弦
+c = np.cos(arr6)#求余弦
+print(s,c)
+l = np.log(arr6)#求对数
+p = np.power(arr6,2)#求指数
+print(l,p)
+print(arr6.min())
+print(arr6.max())
+print(arr6.argmin())
+print(arr6.argmax())
+#  .sum()求和   .mean() .median()返回平均值 .var()方差 .std()标准差
+
+arr7 = np.array([[2,5],[1,4]])
+print(np.sum(arr7,axis=0))
+print(np.sum(arr7,axis=1))
