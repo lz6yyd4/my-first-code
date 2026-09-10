@@ -53,3 +53,34 @@ def join_name(first,last):
     return f"{first}{last}"
 print(join_name("张","三"))
 
+
+with open("test.txt","w",encoding="utf-8") as f:
+    f.write("Hello, World!\n")
+    f.write("今天天气不错。\n")
+
+with open("test.txt","a",encoding="utf-8") as f:
+    f.write("这是追加的内容。\n")
+
+with open("test.txt", "r", encoding="utf-8") as f:
+    content = f.read()
+print(content)
+
+try:
+    # 可能会报错的代码
+    num = 10 / 0
+except ZeroDivisionError:
+    print("错误：不能除以0")
+except Exception as e:
+    print("发生未知错误：", e)
+else:
+    # 没有异常才执行
+    print("代码正常运行")
+finally:
+    # 无论有没有报错，一定会执行
+    print("程序结束")
+
+try:
+    open("non_existent_file.txt", "r")
+except FileNotFoundError:
+    print("错误：文件不存在")
+
