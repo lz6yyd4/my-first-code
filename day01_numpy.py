@@ -32,10 +32,10 @@ lin = np.linspace(0,1,5)#创建区间零到一等间距分布的五个数
 print(lin)
 
 rad = np.random.rand(3,4)#创建三行四列的随机数组
-print(rad)
+print(f"rad:\n{rad}")
 
 rad2 = np.random.randint(0,10,size=(3,4),dtype=int)#(最小值,最大值，size=(行,列),dtype=数据类型)
-print(rad2)
+print(f"rad2:\n{rad2}")
 
 #========数学运算=========
 res = np.dot([1,2,3],[4,5,6])#.dot点成运算
@@ -122,3 +122,15 @@ arr2 = np.ones((2,3))
 print(np.vstack([arr1,arr2]).shape)
 print(np.hstack([arr1,arr2]).shape)
 print(np.dstack([arr1,arr2]).shape)
+
+arr = np.array([1,33,24,2,53,3,63])
+mask = arr > 10
+print(mask)
+res = arr[mask]
+print(res)
+
+nums = np.array([10,20,30,40,50,60])
+a1,a2,a3 = np.split(nums,3)
+print(f"a1: {a1}")
+print(f"a2: {a2}")
+print(f"a3: {a3}")
