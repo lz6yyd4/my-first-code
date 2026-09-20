@@ -1,0 +1,19 @@
+# 编译产生的可执行程序
+*.exe
+*.class
+*.o
+*.out
+
+# Python缓存文件
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# VSCode 配置缓存
+.vscode/
+*.log
+
+# 系统垃圾文件
+.DS_Store
+Thumbs.db
