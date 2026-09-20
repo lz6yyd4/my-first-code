@@ -134,3 +134,35 @@ a1,a2,a3 = np.split(nums,3)
 print(f"a1: {a1}")
 print(f"a2: {a2}")
 print(f"a3: {a3}")
+
+#L2范数
+a = np.array([3,4])
+l2 = np.linalg.norm(a, ord=2)
+print("L2范数：",l2)
+
+#L1范数
+a = np.array([3,-4])
+l1 = np.linalg.norm(a, ord=1)
+print("L1范数：",l1)
+
+I = np.eye(2) # 单位矩阵
+print(I)
+
+A = np.array([[1,2],[3,4]])
+A_inv = np.linalg.inv(A)
+print("A的逆矩阵：")
+print(A_inv)
+
+# 验证 A @ A_inv 是不是单位矩阵
+print("\nA @ A_inv：")
+print(A @ A_inv)
+
+A = np.array([[1,2],[3,4]])
+det_A = np.linalg.det(A)
+print("A行列式：", det_A)
+
+# 非方阵 2行3列，无逆，但可以求伪逆
+M = np.array([[1,2,3],[4,5,6]])
+M_pinv = np.linalg.pinv(M)
+print("伪逆矩阵：")
+print(M_pinv)

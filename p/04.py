@@ -47,7 +47,7 @@ df["等级"] = ["良好","优秀","良好"]
 print(df)
 '''
 import pandas as pd
-date = {"姓名":["小明","小红","小刚","小丽"],"年龄":[19,18,20,19],"成绩":[85,93,78,89]}
+date = {"姓名":["小明","小红","小刚","小丽"],"年龄":[19,18,20,19],"成绩":[55,93,78,89]}
 df = pd.DataFrame(date)
 print(df)
 print(df.shape)
@@ -66,3 +66,4 @@ df_read = pd.read_csv("student.csv",encoding="utf-8-sig")
 print(df_read)
 mask2 = (df_read["成绩"] > 85) & (df_read["年龄"] == 19)
 print(df_read[mask2])
+
